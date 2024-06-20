@@ -1,21 +1,27 @@
 package com.project.crud.controller;
 
-import com.project.crud.model.User;
+import com.project.crud.dto.RequestUser;
+import com.project.crud.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private ArrayList<User> users = new ArrayList<>();
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping("/add")
-    public ResponseEntity addUser(User user) {
-        users.add(user);
-        return ResponseEntity.ok(user);
+    @GetMapping("/find")
+    public ResponseEntity getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity createUser(@RequestBody @Validated RequestUser user) {
+        System.out.println(user);
+        return ResponseEntity.ok().build();
     }
 }
