@@ -1,4 +1,7 @@
 package com.project.crud.dto;
 
-public record RequestUser(Long id,String username, String password) {
+import org.springframework.validation.annotation.Validated;
+
+@Validated
+public record RequestUser(Long id, String username,  String password) {
 }

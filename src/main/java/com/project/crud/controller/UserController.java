@@ -27,16 +27,18 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update")
-    public ResponseEntity updateUser(@RequestBody @Validated RequestUser user) {
+    // TODO: implementar os endpoints {id}
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody @Validated RequestUser user) {
         User userUp = userRepository.getReferenceById(user.id());
         userUp.setUsername(user.username());
         userUp.setPassword(user.password());
         return ResponseEntity.ok(userRepository.save(userUp));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity deleteUser(@RequestBody @Validated RequestUser user) {
+    // TODO: implementar os endpoints {id}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id,@RequestBody @Validated RequestUser user) {
         userRepository.deleteById(user.id());
         return ResponseEntity.ok().build();
     }
