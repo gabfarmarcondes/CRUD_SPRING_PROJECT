@@ -1,5 +1,6 @@
 package com.project.crud.model;
 
+import com.project.crud.dto.RequestUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,9 @@ public class User {
 
     private String username;
     private String password;
+
+    public User(RequestUser requestUser) {
+        this.username = requestUser.username();
+        this.password = requestUser.password();
+    }
 }
