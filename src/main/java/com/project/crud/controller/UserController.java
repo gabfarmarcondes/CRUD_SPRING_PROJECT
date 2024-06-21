@@ -4,10 +4,13 @@ import com.project.crud.dto.RequestUser;
 import com.project.crud.model.User;
 import com.project.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -36,20 +39,17 @@ public class UserController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, @RequestBody @Validated RequestUser user) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User userUp = userRepository.getReferenceById(id);
-            userUp.setUsername(user.username());
-            userUp.setPassword(user.password());
-            return ResponseEntity.ok(userRepository.save(userUp));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        User userUp = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        userUp.setUsername(user.username());
+        userUp.setPassword(user.password());
+        return ResponseEntity.ok(userRepository.save(userUp));
+
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id,@RequestBody @Validated RequestUser user) {
+        User userUp = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
