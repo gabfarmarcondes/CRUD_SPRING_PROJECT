@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/users")
@@ -20,6 +22,11 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
+    @GetMapping("/find/{id}")
+    public ResponseEntity getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userRepository.findById(id));
+    }
+
     @PostMapping("/create")
     public ResponseEntity createUser(@RequestBody @Validated RequestUser user) {
         User newUser = new User(user);
@@ -27,19 +34,22 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: implementar os endpoints {id}
     @PutMapping("/update/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, @RequestBody @Validated RequestUser user) {
-        User userUp = userRepository.getReferenceById(user.id());
-        userUp.setUsername(user.username());
-        userUp.setPassword(user.password());
-        return ResponseEntity.ok(userRepository.save(userUp));
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User userUp = userRepository.getReferenceById(id);
+            userUp.setUsername(user.username());
+            userUp.setPassword(user.password());
+            return ResponseEntity.ok(userRepository.save(userUp));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    // TODO: implementar os endpoints {id}
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id,@RequestBody @Validated RequestUser user) {
-        userRepository.deleteById(user.id());
+        userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }
