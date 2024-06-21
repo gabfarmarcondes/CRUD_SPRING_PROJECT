@@ -34,4 +34,10 @@ public class UserController {
         userUp.setPassword(user.password());
         return ResponseEntity.ok(userRepository.save(userUp));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUser(@RequestBody @Validated RequestUser user) {
+        userRepository.deleteById(user.id());
+        return ResponseEntity.ok().build();
+    }
 }
