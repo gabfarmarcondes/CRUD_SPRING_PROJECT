@@ -2,6 +2,7 @@ package com.project.crud.model;
 
 import com.project.crud.dto.RequestUser;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Getter
@@ -23,6 +24,10 @@ public class User {
 
     @Column(nullable = false, unique = true, length = 50)
     private String password;
+
+    @Email
+    @Column(nullable = false, unique = true)
+    private String email;
 
     public User(RequestUser requestUser) {
         this.username = requestUser.username();
