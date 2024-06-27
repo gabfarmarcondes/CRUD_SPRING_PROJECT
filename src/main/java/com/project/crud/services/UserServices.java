@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+// TODO: IMPLEMENTAR AS VALIDAÇÕES
 @Service
 public class UserServices implements UserServicesImpl {
 
