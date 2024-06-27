@@ -28,6 +28,11 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findById(id));
     }
 
+    @GetMapping("/find/{username}")
+    public ResponseEntity getUserByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userRepository.findByUsename(username));
+    }
+
     @PostMapping("/create")
     public ResponseEntity createUser(@RequestBody @Validated RequestUser user) {
         User newUser = new User(user);
