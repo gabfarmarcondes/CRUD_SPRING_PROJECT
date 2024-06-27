@@ -4,14 +4,12 @@ import com.project.crud.dto.RequestUser;
 import com.project.crud.model.User;
 import com.project.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @RestController
@@ -47,8 +45,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id,@RequestBody @Validated RequestUser user) {
-        User userUp = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         userRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
