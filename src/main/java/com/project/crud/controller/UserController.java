@@ -3,6 +3,7 @@ package com.project.crud.controller;
 import com.project.crud.dto.RequestUser;
 import com.project.crud.model.User;
 import com.project.crud.repository.UserRepository;
+import com.project.crud.services.crud.UserServicesCRUD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import java.util.NoSuchElementException;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserServicesCRUD userServices;
 
     @GetMapping("/find")
     public ResponseEntity getAllUsers() {

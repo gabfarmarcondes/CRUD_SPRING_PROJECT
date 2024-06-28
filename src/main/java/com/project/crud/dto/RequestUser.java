@@ -1,7 +1,14 @@
 package com.project.crud.dto;
 
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 
-@Validated
-public record RequestUser(Long id, String username,  String password, String email, int age) {
-}
+@Valid
+public record RequestUser(
+        Long id,
+        String username,
+        String password,
+        String confirmPassword,
+        String email,
+        String confirmEmail,
+        int age)
+{ }
