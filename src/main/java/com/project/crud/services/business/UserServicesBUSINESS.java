@@ -18,7 +18,7 @@ public class UserServicesBUSINESS {
     }
 
     public void checkEmailMatch(User user) {
-        if (!user.getEmail().equals(user.getEmail())) {
+        if (!user.getEmail().equals(user.getConfirmEmail())) {
             throw new IllegalArgumentException("Emails don't match");
         }
     }

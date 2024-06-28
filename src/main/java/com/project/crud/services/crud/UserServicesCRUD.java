@@ -21,19 +21,14 @@ public class UserServicesCRUD {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long id){
         User userToUpdate = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not Found"));
-        if (userToUpdate != null) {
-            userToUpdate.setUsername(user.getUsername());
-            userToUpdate.setPassword(user.getPassword());
-            userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setAge(user.getAge());
-        }
-        return userRepository.save(user);
+        return userRepository.save(userToUpdate);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        User userToDelete = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not Found"));
+        userRepository.delete(userToDelete);
     }
 
 }
