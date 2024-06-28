@@ -16,47 +16,5 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private UserServicesCRUD userServices;
-
-    @GetMapping("/find")
-    public ResponseEntity getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
-    }
-
-    @GetMapping("/find/{id}")
-    public ResponseEntity getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userRepository.findById(id));
-    }
-
-    @GetMapping("/find/{username}")
-    public ResponseEntity getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userRepository.findByUsename(username));
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity createUser(@RequestBody @Validated RequestUser user) {
-        User newUser = new User(user);
-        userRepository.save(newUser);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody @Validated RequestUser user) {
-        User userUp = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
-        userUp.setUsername(user.username());
-        userUp.setPassword(user.password());
-        return ResponseEntity.ok(userRepository.save(userUp));
-
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
-        userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
-        userRepository.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }
